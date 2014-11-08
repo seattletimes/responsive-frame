@@ -15,7 +15,8 @@ module.exports = function(grunt) {
     var done = this.async();
 
     //set name, out for each seed file
-    var files = grunt.file.expand(["src/*.js"]);
+    var components = grunt.file.expand({filter: "isDirectory", cwd: "src" }, ["*", "!amd", "!lib"]);
+    var files = components.map(function(d) { return d + "/" + d + ".js" });
     var packages = [];
     files.forEach(function(src) {
       //one for each configuration
@@ -26,7 +27,7 @@ module.exports = function(grunt) {
     async.each(packages, function(package, c) {
       var extension = path.extname(package.src);
       var basename = path.basename(package.src);
-      var module = basename.replace(extension, "");
+      var module = package.src.replace(extension, "");
       var output = "build/" + basename;
       var dev = mode == "dev";
       
@@ -57,8 +58,10 @@ module.exports = function(grunt) {
         }
       };
       
+      //standalone packages get their own define shim and require() statement
       if (!package.standalone) {
         config.deps.unshift("define");
+        config.insertRequire = [module];
       }
 
       for (var key in project.require) {

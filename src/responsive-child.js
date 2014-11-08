@@ -1,1 +1,0 @@
-require(["responsive-child/responsive-child"]);

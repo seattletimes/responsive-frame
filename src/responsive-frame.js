@@ -1,1 +1,0 @@
-require(["responsive-frame/responsive-frame"]);
