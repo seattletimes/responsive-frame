@@ -12,10 +12,24 @@ remote module loading. It's basically just enough to load a component bundle.
 
   var moduleCache = {};
 
-  var makeAbsolute = function(name, path) {
-    var dir = name.replace(/\/[^\/]+$/, "");
-    var absolute = path.replace(/(^|!)\./, function(matches) { return matches.replace(".", dir) });
-    return absolute;
+  var resolve = function(name, path) {
+    var cwd = name.replace(/\/[^\/]+$/, "");
+    var plugin = "";
+    if (path.indexOf("!") > -1) {
+      //extract plugin path
+      plugin = path.replace(/!.*$/, "!");
+      path = path.replace(/^[^!]+!/, "");
+    }
+    var resolved = cwd.split("/").concat(path.split("/")).reduce(function(dirs, segment) {
+      if (segment == ".") return dirs;
+      if (segment == "..") {
+        dirs.pop();
+      } else {
+        dirs.push(segment);
+      }
+      return dirs;
+    }, []).join("/");
+    return plugin + resolved;
   };
 
   //runs dependencies at definition time instead of lazy-executing them when required
@@ -28,7 +42,7 @@ remote module loading. It's basically just enough to load a component bundle.
 
     var module;
     if (typeof def == "function") {
-      var dependencies = required.map(function(path) { return moduleCache[makeAbsolute(moduleName, path)] });
+      var dependencies = required.map(function(path) { return moduleCache[resolve(moduleName, path)] });
       module = def.apply(null, dependencies);
     } else {
       module = def;

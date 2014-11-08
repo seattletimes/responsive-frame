@@ -15,29 +15,51 @@ module.exports = function(grunt) {
     var done = this.async();
 
     //set name, out for each seed file
-    var files = grunt.file.expand(["src/*.js", "!src/text.js", "!src/less.js", "!src/template.js", "!src/define.js"]);
+    var files = grunt.file.expand(["src/*.js"]);
+    var packages = [];
+    files.forEach(function(src) {
+      //one for each configuration
+      packages.push({ src: src, standalone: true });
+      packages.push({ src: src, standalone: false });
+    });
 
-    async.each(files, function(src, c) {
-      var extension = path.extname(src);
-      var basename = path.basename(src);
+    async.each(packages, function(package, c) {
+      var extension = path.extname(package.src);
+      var basename = path.basename(package.src);
       var module = basename.replace(extension, "");
       var output = "build/" + basename;
+      var dev = mode == "dev";
+      
+      if (!dev) {
+        output = output.replace(extension, ".min" + extension);
+      }
+      
+      if (package.standalone) {
+        output = output.replace(extension, ".amd" + extension);
+      }
 
       var config = {
         name: module,
         out: output,
         baseUrl: "src",
-        deps: ["define", "registerElement"], //minimal shim for define/require
-        generateSourceMaps: mode == "dev" ? true : false,
+        deps: ["registerElement"],
+        generateSourceMaps: dev ? true : false,
         preserveLicenseComments: false,
-        optimize: mode == "dev" ? "none" : "uglify2",
+        optimize: dev ? "none" : "uglify2",
         stubModules: ["text", "less", "template"],
-        //common paths for bower packages
-        //luckily, require won't complain unless we use them
+        //move plugins to subdirectory, simplifies builds
         paths: {
-          "registerElement": "lib/document-register-element/build/document-register-element"
+          "registerElement": "lib/document-register-element/build/document-register-element",
+          "define": "amd/define",
+          "less": "amd/less",
+          "template": "amd/template",
+          "text": "amd/text"
         }
       };
+      
+      if (!package.standalone) {
+        config.deps.unshift("define");
+      }
 
       for (var key in project.require) {
         config[key] = project.require[key];
