@@ -17,7 +17,7 @@ define(function() {
   };
 
   var lessTemplate = function() {/*
-define("less!{{file}}", function() {
+define("{{plugin}}!{{module}}", function() {
   var style = document.createElement("style");
   style.setAttribute("less", "{{file}}");
   style.innerHTML = {{content}};
@@ -39,7 +39,8 @@ define("less!{{file}}", function() {
       var template = _(lessTemplate);
       var css = cache[name];
       var output = template
-        .replace(/\{\{file\}\}/g, name)
+        .replace("{{module}}", name)
+        .replace("{{plugin}}", plugin)
         .replace("{{content}}", JSON.stringify(css));
       write(output);
     }

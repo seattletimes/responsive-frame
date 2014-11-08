@@ -1,5 +1,6 @@
 define([
-  "less!./responsive-child.less"
+  "../amd/less!./responsive-child.less",
+  "../lib/document-register-element/build/document-register-element"
 ], function() {
 
   var trap = "while (true);";

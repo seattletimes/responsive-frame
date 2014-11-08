@@ -20,7 +20,7 @@ define(function() {
   };
 
   var lessTemplate = function() {/*
-define("template!{{file}}", function() {
+define("{{plugin}}!{{file}}", function() {
   return {{function}};
 });
   */};
@@ -38,7 +38,8 @@ define("template!{{file}}", function() {
       var template = _(lessTemplate);
       var source = cache[name];
       var output = template
-        .replace(/\{\{file\}\}/g, name)
+        .replace("{{file}}", name)
+        .replace("{{plugin}}", plugin)
         .replace("{{function}}", source);
       write(output);
     }

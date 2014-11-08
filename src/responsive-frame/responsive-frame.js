@@ -1,7 +1,8 @@
 define([
-  "template!./_template.html",
+  "../amd/template!./_template.html",
   "./host",
-  "less!./responsive-frame.less"
+  "../amd/less!./responsive-frame.less",
+  "../lib/document-register-element/build/document-register-element"
 ], function(template, Host) {
 
   var proto = Object.create(HTMLElement.prototype);
