@@ -27,11 +27,11 @@ module.exports = function(grunt) {
         name: module,
         out: output,
         baseUrl: "src",
-        deps: ["define.js", "registerElement"], //minimal shim for define/require
+        deps: ["define", "registerElement"], //minimal shim for define/require
         generateSourceMaps: mode == "dev" ? true : false,
         preserveLicenseComments: false,
         optimize: mode == "dev" ? "none" : "uglify2",
-        stubModules: ["text", "less"],
+        stubModules: ["text", "less", "template"],
         //common paths for bower packages
         //luckily, require won't complain unless we use them
         paths: {
@@ -43,7 +43,10 @@ module.exports = function(grunt) {
         config[key] = project.require[key];
       }
 
-      r.optimize(config, function() { c() }, function(err) {
+      r.optimize(config, function() { 
+        console.log("Wrote %s", config.out);
+        c()
+      }, function(err) {
         if (err) console.error(err);
         c(err);
       });
