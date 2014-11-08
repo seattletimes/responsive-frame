@@ -42,6 +42,6 @@ define([
     });
   };
 
-  document.registerElement("responsive-child", { prototype: proto });
+  document.registerElement("responsive-child", { prototype: proto, extends: "body" });
 
 });
