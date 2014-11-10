@@ -11,7 +11,7 @@ var project = require("../project.json");
 
 module.exports = function(grunt) {
 
-  grunt.registerTask("amd", "Compile AMD modules to build/main.js", function(mode) {
+  grunt.registerTask("amd", "Compile AMD modules to build/main.js", function() {
     var done = this.async();
 
     //set name, out for each seed file
@@ -20,8 +20,8 @@ module.exports = function(grunt) {
     var packages = [];
     files.forEach(function(src) {
       //one for each configuration
-      packages.push({ src: src, standalone: true });
-      packages.push({ src: src, standalone: false });
+      packages.push({ src: src, dev: true });
+      packages.push({ src: src, dev: false });
     });
 
     async.each(packages, function(package, c) {
@@ -29,40 +29,21 @@ module.exports = function(grunt) {
       var basename = path.basename(package.src);
       var module = package.src.replace(extension, "");
       var output = "build/" + basename;
-      var dev = mode == "dev";
       
-      if (!dev) {
+      if (!package.dev) {
         output = output.replace(extension, ".min" + extension);
-      }
-      
-      if (package.standalone) {
-        output = output.replace(extension, ".amd" + extension);
       }
 
       var config = {
         name: module,
         out: output,
         baseUrl: "src",
-        deps: ["registerElement"],
-        generateSourceMaps: dev ? true : false,
+        deps: ["amd/define"],
+        generateSourceMaps: package.dev ? true : false,
         preserveLicenseComments: false,
-        optimize: dev ? "none" : "uglify2",
-        stubModules: ["text", "less", "template"],
-        //move plugins to subdirectory, simplifies builds
-        paths: {
-          "registerElement": "lib/document-register-element/build/document-register-element",
-          "define": "amd/define",
-          "less": "amd/less",
-          "template": "amd/template",
-          "text": "amd/text"
-        }
+        optimize: package.dev ? "none" : "uglify2",
+        stubModules: ["amd/text", "amd/less", "amd/template"]
       };
-      
-      //standalone packages get their own define shim and require() statement
-      if (!package.standalone) {
-        config.deps.unshift("define");
-        config.insertRequire = [module];
-      }
 
       for (var key in project.require) {
         config[key] = project.require[key];

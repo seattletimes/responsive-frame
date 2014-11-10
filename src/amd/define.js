@@ -1,10 +1,4 @@
-/*
-
-This is a tiny shim for AMD modules. It assumes that you have built your
-modules using the RequireJS optimizer - it does NOT support loader plugins or
-remote module loading. It's basically just enough to load a component bundle.
-
-*/
+//define/require shim
 (function() {
 
   //don't override existing module loader
@@ -12,15 +6,19 @@ remote module loading. It's basically just enough to load a component bundle.
 
   var moduleCache = {};
 
+  //returns an array, so not like real path.join()
+  var join = function() {
+    var path = arguments[0].split("/");
+    for (var i = 1; i < arguments.length; i++) {
+      path.push.apply(path, arguments[i].split("/"));
+    }
+    return path;
+  }
+
   var resolve = function(name, path) {
     var cwd = name.replace(/\/[^\/]+$/, "");
     var plugin = "";
-    if (path.indexOf("!") > -1) {
-      //extract plugin path
-      plugin = path.replace(/!.*$/, "!");
-      path = path.replace(/^[^!]+!/, "");
-    }
-    var resolved = cwd.split("/").concat(path.split("/")).reduce(function(dirs, segment) {
+    var reducePath = function(dirs, segment) {
       if (segment == ".") return dirs;
       if (segment == "..") {
         dirs.pop();
@@ -28,7 +26,14 @@ remote module loading. It's basically just enough to load a component bundle.
         dirs.push(segment);
       }
       return dirs;
-    }, []).join("/");
+    };
+    if (path.indexOf("!") > -1) {
+      //extract plugin path
+      plugin = join(cwd, path.replace(/!.*$/, "!")).reduce(reducePath, []).join("/");
+      path = path.replace(/^[^!]+!/, "");
+    }
+
+    var resolved = join(cwd, path).reduce(reducePath, []).join("/");
     return plugin + resolved;
   };
 
