@@ -17,7 +17,5 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "document-register-element": "~0.1.6"
-  }
+  "dependencies": {}
 }

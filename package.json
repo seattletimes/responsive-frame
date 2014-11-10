@@ -7,11 +7,13 @@
     "type": "git",
     "url": "https://github.com/seattletimes/component-responsive-frame.git"
   },
+  "main": "src/index.js",
   "dependencies": {
     "async": "^0.9.0",
     "aws-sdk": "^2.0.0-rc.19",
     "browserify": "^6.2.0",
     "chalk": "^0.5.1",
+    "document-register-element": "^0.1.6",
     "dot": "^1.0.2",
     "exorcist": "^0.1.6",
     "grunt": "^0.4.5",
@@ -21,9 +23,6 @@
     "mime": "^1.2.11",
     "shelljs": "^0.3.0",
     "through2": "^0.6.3"
-  },
-  "browser": {
-    "document-register-element": "./src/lib/document-register-element/build/document-register-element"
   },
   "browserify": {
     "transform": [
