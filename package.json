@@ -17,7 +17,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "less": "^2.0.0",
     "mime": "^1.2.11",
-    "requirejs": "^2.1.14",
+    "requirejs": "^2.1.15",
     "shelljs": "^0.3.0"
   }
 }

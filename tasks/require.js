@@ -12,6 +12,10 @@ var project = require("../project.json");
 module.exports = function(grunt) {
 
   grunt.registerTask("amd", "Compile AMD modules to build/main.js", function() {
+    
+    //less must be pre-compiled first, because the optimizer is sync-only
+    grunt.task.requires("less");
+    
     var done = this.async();
 
     //set name, out for each seed file
