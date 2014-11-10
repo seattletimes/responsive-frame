@@ -1,17 +1,13 @@
-define([
-  "../amd/template!./_template.html",
-  "./host",
-  "../amd/less!./responsive-frame.less",
-  "../lib/document-register-element/build/document-register-element"
-], function(template, Host) {
+var template = require("./_template.html");
+var Host = require("./host");
+require("./responsive-frame.less");
+require("document-register-element");
 
-  var proto = Object.create(HTMLElement.prototype);
-  proto.createdCallback = function() {
-    var src = this.getAttribute("src");
-    this.innerHTML = template({ src: src });
-    this.host = new Host(this.querySelector("iframe"));
-  };
+var proto = Object.create(HTMLElement.prototype);
+proto.createdCallback = function() {
+  var src = this.getAttribute("src");
+  this.innerHTML = template({ src: src });
+  this.host = new Host(this.querySelector("iframe"));
+};
 
-  document.registerElement("responsive-frame", { prototype: proto });
-
-});
+document.registerElement("responsive-frame", { prototype: proto });

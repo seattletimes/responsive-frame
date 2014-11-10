@@ -23,7 +23,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: ["src/**/*"], //everything, due to templating, GLSL, LESS, etc.
-        tasks: ["amd:dev"]
+        tasks: ["bundle"]
       }
     }
   });
