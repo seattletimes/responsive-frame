@@ -5,9 +5,6 @@
   "authors": [
     "The Seattle Times"
   ],
-  "moduleType": [
-    "amd"
-  ],
   "license": "MIT",
   "ignore": [
     "**/.*",
