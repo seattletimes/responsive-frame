@@ -10,4 +10,8 @@ proto.createdCallback = function() {
   this.host = new Host(this.querySelector("iframe"));
 };
 
+proto.sendMessage = function(message) {
+  this.host.send(message);
+};
+
 document.registerElement("responsive-frame", { prototype: proto });
