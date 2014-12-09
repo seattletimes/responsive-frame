@@ -38,6 +38,8 @@ proto.createdCallback = function() {
       window.addEventListener("resize", function() {
         notify("resize");
       });
+    } else {
+      self.dispatchEvent(new MessageEvent("message", { data: message }));
     }
   });
 };
@@ -49,7 +51,7 @@ document.registerElement("responsive-child", { prototype: proto, extends: "body"
 },{}],3:[function(require,module,exports){
 var style = document.createElement("style");
 style.setAttribute("less", "responsive-child.less");
-style.innerHTML = "[is=responsive-child],\nresponsive-child {\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n";
+style.innerHTML = "[is=responsive-child],\nresponsive-child {\n  margin: 0;\n  padding: 0.1px 0;\n}\n";
 document.head.appendChild(style);
 
 },{}]},{},[1])

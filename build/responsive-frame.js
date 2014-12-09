@@ -11,6 +11,10 @@ proto.createdCallback = function() {
   this.host = new Host(this.querySelector("iframe"));
 };
 
+proto.sendMessage = function(message) {
+  this.host.send(message);
+};
+
 document.registerElement("responsive-frame", { prototype: proto });
 },{"./_template.html":3,"./host":4,"./responsive-frame.less":5,"document-register-element":2}],2:[function(require,module,exports){
 /*! (C) WebReflection Mit Style License */
