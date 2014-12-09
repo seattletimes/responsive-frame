@@ -37,6 +37,8 @@ proto.createdCallback = function() {
       window.addEventListener("resize", function() {
         notify("resize");
       });
+    } else {
+      self.dispatchEvent(new MessageEvent("message", { data: message }));
     }
   });
 };
