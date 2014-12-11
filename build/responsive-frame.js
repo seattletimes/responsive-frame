@@ -52,7 +52,7 @@ Host.prototype = {
   onMessage: function(message) {
     if (message.id !== this.id) return;
     if (message.type == "ready") {
-      return this.state = "ready";
+      this.state = "ready";
     }
     if (message.height) {
       return this.element.height = message.height + "px";
