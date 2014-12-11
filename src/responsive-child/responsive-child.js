@@ -22,7 +22,8 @@ proto.createdCallback = function() {
     for (var key in message) packet[key] = message[key];
     packet.id = id;
     send(packet);
-  }
+  };
+  //register to handle messages from the host
   window.addEventListener("message", function(e) {
     var data = e.data;
     if (data.indexOf(trap) !== 0) return;
@@ -45,6 +46,7 @@ proto.createdCallback = function() {
         notify("resize");
       });
     } else {
+      //this doesn't bubble, you must attach listeners directly to the element
       self.dispatchEvent(new MessageEvent("message", { data: message }));
     }
   });

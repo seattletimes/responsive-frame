@@ -1,10 +1,12 @@
 var trap = "while (true);";
 var guid = 0;
 
-var Host = function(frame) {
+//frame is the iframe, messageCallback will be invoked on non-height messages
+var Host = function(frame, messageCallback) {
   this.element = frame;
   this.id = guid++;
   this.state = "waiting";
+  this.callback = messageCallback || function() {};
   this.init();
 };
 
@@ -31,8 +33,7 @@ Host.prototype = {
     if (message.height) {
       return this.element.height = message.height + "px";
     }
-    var event = new MessageEvent("childmessage", { data: message, bubbles: true });
-    this.element.dispatchEvent(event);
+    this.callback(message);
   },
   send: function(message) {
     this.element.contentWindow.postMessage(trap + JSON.stringify(message), "*");

@@ -7,7 +7,10 @@ var proto = Object.create(HTMLElement.prototype);
 proto.createdCallback = function() {
   var src = this.getAttribute("src");
   this.innerHTML = template({ src: src });
-  this.host = new Host(this.querySelector("iframe"));
+  var self = this;
+  this.host = new Host(this.querySelector("iframe"), function(data) {
+    self.dispatchEvent(new MessageEvent("childmessage", { data: data, bubbles: true }));
+  });
 };
 
 proto.sendMessage = function(message) {
