@@ -19,6 +19,11 @@ On the guest page:
 
 That's it!
 
+Extracurricular messaging
+-------------------------
+
+Although it is intended for resizing frames, you can also transfer arbitrary messages between the host and guest via the ``sendMessage()`` method present on each. Messages received on the client side will have the ``message`` event type, and will propagate in from the ``responsive-child`` element. On the host, the message type is ``childmessage`` to avoid colliding with the existing ``message`` type, and will bubble upward from the ``responsive-frame``.
+
 About this project
 ------------------
 
