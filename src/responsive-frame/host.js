@@ -26,11 +26,13 @@ Host.prototype = {
   onMessage: function(message) {
     if (message.id !== this.id) return;
     if (message.type == "ready") {
-      this.state = "ready";
+      return this.state = "ready";
     }
     if (message.height) {
-      this.element.height = message.height + "px";
+      return this.element.height = message.height + "px";
     }
+    var event = new MessageEvent("childmessage", { data: message, bubbles: true });
+    this.element.dispatchEvent(event);
   },
   send: function(message) {
     this.element.contentWindow.postMessage(trap + JSON.stringify(message), "*");
