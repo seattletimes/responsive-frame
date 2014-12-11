@@ -17,6 +17,13 @@ proto.createdCallback = function() {
     var message = { height: self.offsetHeight, type: reason, id: id };
     send(message);
   };
+  //set up utility messaging function
+  self.sendMessage = function(message) {
+    var packet = {};
+    for (var key in message) packet[key] = message[key];
+    packet.id = id;
+    send(packet);
+  }
   window.addEventListener("message", function(e) {
     var data = e.data;
     if (data.indexOf(trap) !== 0) return;
@@ -43,6 +50,7 @@ proto.createdCallback = function() {
     }
   });
 };
+proto.sendMessage = null;
 
 document.registerElement("responsive-child", { prototype: proto, extends: "body" });
 },{"./responsive-child.less":3,"document-register-element":2}],2:[function(require,module,exports){

@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+  <body>
+    <responsive-frame src="child.html"></responsive-frame>
+    <responsive-frame src="child2.html"></responsive-frame>
+    <script src="responsive-frame.js"></script>
+    <script>
+document.querySelector("responsive-frame").addEventListener("childmessage", function(e) {
+  console.log("From child: ", e.data);
+  this.sendMessage({ pingback: e.data.ping });
+});
+    </script>
+  </body>
+</html>
