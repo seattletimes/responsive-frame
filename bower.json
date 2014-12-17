@@ -1,6 +1,6 @@
 {
   "name": "component-responsive-frame",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "homepage": "https://github.com/seattletimes/component-responsive-frame",
   "authors": [
     "The Seattle Times"
@@ -9,11 +9,10 @@
     "build/responsive-frame.js",
     "build/responsive-child.js"
   ],
-  "license": "MIT",
+  "license": "GPL",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
     "src/lib",
     "test",
     "tests"
