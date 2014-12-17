@@ -35,7 +35,7 @@ Guest.prototype = {
   },
 
   //parse message event
-  parseEvent(e) {
+  parseEvent: function(e) {
     var data = e.data;
     if (data.indexOf(trap) !== 0) return { text: data };
     var message = JSON.parse(data.replace(trap, ""));
