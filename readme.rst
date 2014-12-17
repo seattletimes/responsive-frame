@@ -10,6 +10,10 @@ On the host page:
 
     <responsive-frame src="guest.html"></responsive-frame>
 
+   You can also use the responsive-iframe extended element, if you want::
+
+    <iframe is="responsive-iframe" src="guest.html"></iframe>
+
 On the guest page:
 
 1. Include the ``responsive-child.js`` file to load the child element behavior.
