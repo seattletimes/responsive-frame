@@ -13,9 +13,11 @@ On the host page:
 On the guest page:
 
 1. Include the ``responsive-child.js`` file to load the child element behavior.
-2. Wrap your content in a ``<responsive-child>`` tag, or extend the body tag with its behavior::
+2. Wrap your content in a ``<responsive-child>`` tag, or extend the body tag with its behavior using the ``responsive-body`` attribute value::
 
-    <body is="responsive-body">...</body>
+    <body is="responsive-body">
+      Note: previously, we extended &lt;body&gt; elements with <var>responsive-child</var>, but this has been deprecated so that we can have both extended elements and individual &lt;responsive-child&gt; elements.
+    </body>
 
 That's it!
 
