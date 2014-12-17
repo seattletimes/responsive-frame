@@ -1,54 +1,28 @@
 require("document-register-element");
 require("./responsive-child.less");
-
-var trap = "while (true);";
-
-var send = function(message) {
-  window.parent.postMessage(trap + JSON.stringify(message), "*");
-};
+var Guest = require("./guest.js");
 
 var proto = Object.create(HTMLElement.prototype);
 proto.createdCallback = function() {
   var self = this;
-  var id = null;
-  var interval = self.getAttribute("interval");
-  var notify = function(reason) {
-    var message = { height: self.offsetHeight, type: reason, id: id };
-    send(message);
-  };
-  //set up utility messaging function
-  self.sendMessage = function(message) {
-    var packet = {};
-    for (var key in message) packet[key] = message[key];
-    packet.id = id;
-    send(packet);
-  }
-  window.addEventListener("message", function(e) {
-    var data = e.data;
-    if (data.indexOf(trap) !== 0) return;
-    var message = JSON.parse(data.replace(trap, ""));
-    //kick off loop and notifications after ack
-    if (message.type == "helo") {
-      id = message.id;
-      //respond to outer frame
-      notify("ready");
-      //start interval loop, if needed
-      if (interval) {
-        var loop = function() {
-          notify("interval");
-          setTimeout(loop, interval);
-        };
-        loop();
-      }
-      //register for resizing
-      window.addEventListener("resize", function() {
-        notify("resize");
-      });
-    } else {
-      self.dispatchEvent(new MessageEvent("message", { data: message }));
-    }
+  var guest = this.guest = new Guest(this, function(data) {
+    //message from the host
+    var event = new MessageEvent("message", { data: data });
+    self.dispatchEvent(event);
   });
+  var interval = this.getAttribute("interval");
+  if (interval) {
+    var loop = function() {
+      guest.notify("interval");
+      setTimeout(loop, interval);
+    };
+    loop();
+  }
 };
-proto.sendMessage = null;
+proto.sendMessage = function(message) {
+  this.guest.send(message);
+};
+proto.guest = null;
 
-document.registerElement("responsive-child", { prototype: proto, extends: "body" });
+document.registerElement("responsive-body", { prototype: proto, extends: "body" });
+document.registerElement("responsive-child", { prototype: proto });

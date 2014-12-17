@@ -1,10 +1,10 @@
 <!doctype html>
 <html>
-  <body is="responsive-child">
+  <body is="responsive-body">
       <h1>This space intentionally left blank</h1>
     <script src="responsive-child.js"></script>
     <script>
-var host = document.querySelector("[is=responsive-child]");
+var host = document.querySelector("[is=responsive-body]");
 host.addEventListener("message", function(e) {
   console.log("From host:", e.data);
 });
