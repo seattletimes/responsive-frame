@@ -16,7 +16,9 @@ On the guest page:
 2. Wrap your content in a ``<responsive-child>`` tag, or extend the body tag with its behavior using the ``responsive-body`` attribute value::
 
     <body is="responsive-body">
-      Note: previously, we extended &lt;body&gt; elements with <var>responsive-child</var>, but this has been deprecated so that we can have both extended elements and individual &lt;responsive-child&gt; elements.
+      Note: previously, we extended body elements with "responsive-child", but
+      this has been deprecated so that we can have both extended elements and
+      individual "responsive-child"; elements.
     </body>
 
 That's it!
