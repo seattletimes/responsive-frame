@@ -24,4 +24,5 @@ proto.sendMessage = function(message) {
 };
 proto.guest = null;
 
-document.registerElement("responsive-child", { prototype: proto, extends: "body" });
+document.registerElement("responsive-body", { prototype: proto, extends: "body" });
+document.registerElement("responsive-child", { prototype: proto });

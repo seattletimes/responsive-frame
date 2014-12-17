@@ -15,7 +15,7 @@ On the guest page:
 1. Include the ``responsive-child.js`` file to load the child element behavior.
 2. Wrap your content in a ``<responsive-child>`` tag, or extend the body tag with its behavior::
 
-    <body is="responsive-child">...</body>
+    <body is="responsive-body">...</body>
 
 That's it!
 
