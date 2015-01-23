@@ -3,7 +3,8 @@ require("./responsive-child.less");
 var Guest = require("./guest.js");
 
 var proto = Object.create(HTMLElement.prototype);
-proto.createdCallback = function() {
+var bodyProto = Object.create(HTMLBodyElement.prototype);
+bodyProto.createdCallback = proto.createdCallback = function() {
   var self = this;
   var guest = this.guest = new Guest(this, function(data) {
     //message from the host
@@ -19,10 +20,10 @@ proto.createdCallback = function() {
     loop();
   }
 };
-proto.sendMessage = function(message) {
+bodyProto.sendMessage = proto.sendMessage = function(message) {
   this.guest.send(message);
 };
-proto.guest = null;
+bodyProto.guest = proto.guest = null;
 
-document.registerElement("responsive-body", { prototype: proto, extends: "body" });
+document.registerElement("responsive-body", { prototype: bodyProto, extends: "body" });
 document.registerElement("responsive-child", { prototype: proto });
