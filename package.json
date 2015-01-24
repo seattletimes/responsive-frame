@@ -1,7 +1,7 @@
 {
   "name": "component-responsive-frame",
   "description": "A responsive iframe (includes responsive-child)",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Thomas Wilburn",
   "repository": {
     "type": "git",

@@ -1,0 +1,1 @@
+module.exports = require("./src/responsive-frame/responsive-frame.js");
