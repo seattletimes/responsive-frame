@@ -1,7 +1,7 @@
 {
   "name": "component-responsive-frame",
   "description": "A responsive iframe (includes responsive-child)",
-  "version": "0.0.1",
+  "version": "1.0.4",
   "author": "Thomas Wilburn",
   "repository": {
     "type": "git",
@@ -9,24 +9,25 @@
   },
   "main": "src/index.js",
   "dependencies": {
+    "document-register-element": "^0.1.6",
+    "less": "^2.0.0",
+    "through2": "^0.6.3"
+  },
+  "devDependencies": {
     "async": "^0.9.0",
     "aws-sdk": "^2.0.0-rc.19",
     "browserify": "^6.2.0",
     "chalk": "^0.5.1",
-    "document-register-element": "^0.1.6",
     "dot": "^1.0.2",
     "exorcist": "^0.1.6",
     "grunt": "^0.4.5",
     "grunt-contrib-connect": "^0.9.0",
     "grunt-contrib-watch": "^0.6.1",
-    "less": "^2.0.0",
     "mime": "^1.2.11",
-    "shelljs": "^0.3.0",
-    "through2": "^0.6.3"
+    "shelljs": "^0.3.0"
   },
   "browserify": {
     "transform": [
-      "./tasks/lib/browserify-template",
       "./tasks/lib/browserify-less"
     ]
   }

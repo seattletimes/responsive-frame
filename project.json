@@ -1,6 +1,8 @@
 {
   "s3": {
-    "bucket": "",
-    "path": ""
+    "live": {
+      "bucket": "apps.seattletimes.com",
+      "path": "tags/responsive-frame"
+    }
   }
 }
