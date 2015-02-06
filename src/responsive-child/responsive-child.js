@@ -25,5 +25,9 @@ bodyProto.sendMessage = proto.sendMessage = function(message) {
 };
 bodyProto.guest = proto.guest = null;
 
-document.registerElement("responsive-body", { prototype: bodyProto, extends: "body" });
-document.registerElement("responsive-child", { prototype: proto });
+try {
+  document.registerElement("responsive-body", { prototype: bodyProto, extends: "body" });
+  document.registerElement("responsive-child", { prototype: proto });
+} catch (_) {
+  if (window.console && console.log) console.log("<responsive-child> is already registered.");
+}

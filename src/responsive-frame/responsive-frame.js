@@ -29,5 +29,9 @@ proto.sendMessage = iframeProto.sendMessage = function(message) {
   this.host.send(message);
 };
 
-document.registerElement("responsive-frame", { prototype: proto });
-document.registerElement("responsive-iframe", { prototype: iframeProto, extends: "iframe" });
+try {
+  document.registerElement("responsive-frame", { prototype: proto });
+  document.registerElement("responsive-iframe", { prototype: iframeProto, extends: "iframe" });
+} catch (_) {
+  if (window.console && console.log) console.log("<responsive-iframe> is already registered");
+}
