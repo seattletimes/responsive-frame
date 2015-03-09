@@ -11,7 +11,8 @@ bodyProto.createdCallback = proto.createdCallback = function() {
     var event = new MessageEvent("message", { data: data });
     self.dispatchEvent(event);
   });
-  var interval = this.getAttribute("interval");
+  //set a default interval, but interval=0 still disables it.
+  var interval = this.getAttribute("interval") || 300;
   if (interval) {
     var loop = function() {
       guest.notify("interval");

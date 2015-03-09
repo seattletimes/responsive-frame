@@ -32,6 +32,16 @@ Extracurricular messaging
 
 Although it is intended for resizing frames, you can also transfer arbitrary messages between the host and guest via the ``sendMessage()`` method present on each. Messages received on the client side will have the ``message`` event type, and will propagate in from the ``responsive-child`` element. On the host, the message type is ``childmessage`` to avoid colliding with the existing ``message`` type, and will bubble upward from the ``responsive-frame``.
 
+Why <responsive-frame>?
+-----------------------
+
+Why use the responsive frame component instead of, for example, NPR's Pym.js?
+
+- <responsive-frame> communicates over JSON, which means that it can pass complex objects between windows, and its protocol is easy to extend.
+- No configuration needed: because the host and guest negotiate directly during startup, much of the setup for the <responsive-frame> is done for you.
+- No JavaScript needed: the component is completely instantiated and rendered through HTML, instead of requiring scripting support on both sides of the frame.
+- Clean, future-forward codebase: <responsive-frame> is designed to minimize the amount of memory use and promote easy debugging through the use of standard, idiomatic JavaScript.
+
 About this project
 ------------------
 
