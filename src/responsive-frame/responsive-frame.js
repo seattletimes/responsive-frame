@@ -1,5 +1,6 @@
 var Host = require("./host");
 require("document-register-element");
+var makeEvent = require("../makeEvent");
 
 var proto = Object.create(HTMLElement.prototype);
 var iframeProto = Object.create(HTMLIFrameElement.prototype);
@@ -16,12 +17,14 @@ proto.createdCallback = iframeProto.createdCallback = function() {
   element.setAttribute("seamless", "");
   element.setAttribute("width", "100%");
   element.setAttribute("scrolling", "no");
+  element.setAttribute("horizontalscrolling", "no");
+  element.setAttribute("verticalscrolling", "no");
   element.setAttribute("frameborder", "0");
   element.setAttribute("marginwidth", "0");
   element.setAttribute("marginheight", "0");
   var self = this;
   this.host = new Host(element, function(data) {
-    self.dispatchEvent(new MessageEvent("childmessage", { data: data, bubbles: true }));
+    self.dispatchEvent(makeEvent("childmessage", { data: data, bubbles: true }));
   });
 };
 

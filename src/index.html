@@ -6,7 +6,7 @@
     <script src="responsive-frame.js"></script>
     <script>
 document.querySelector("responsive-frame").addEventListener("childmessage", function(e) {
-  console.log("From child: ", e.data);
+  console.log("From child: ", JSON.stringify(e.data));
   this.sendMessage({ pingback: e.data.ping });
 });
     </script>

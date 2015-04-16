@@ -6,7 +6,7 @@
     <script>
 var host = document.querySelector("[is=responsive-body]");
 host.addEventListener("message", function(e) {
-  console.log("From host:", e.data);
+  console.log("From host:", JSON.stringify(e.data));
 });
 var ping = function() {
   host.sendMessage({ ping: Date.now() });

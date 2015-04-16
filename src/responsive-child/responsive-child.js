@@ -1,5 +1,6 @@
 require("document-register-element");
 require("./responsive-child.less");
+var makeEvent = require("../makeEvent");
 var Guest = require("./guest.js");
 
 var proto = Object.create(HTMLElement.prototype);
@@ -8,7 +9,7 @@ bodyProto.createdCallback = proto.createdCallback = function() {
   var self = this;
   var guest = this.guest = new Guest(this, function(data) {
     //message from the host
-    var event = new MessageEvent("message", { data: data });
+    var event = makeEvent("message", { data: data });
     self.dispatchEvent(event);
   });
   //set a default interval, but interval=0 still disables it.
