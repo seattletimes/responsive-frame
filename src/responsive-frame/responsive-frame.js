@@ -22,6 +22,9 @@ proto.createdCallback = iframeProto.createdCallback = function() {
   element.setAttribute("frameborder", "0");
   element.setAttribute("marginwidth", "0");
   element.setAttribute("marginheight", "0");
+  element.setAttribute("mozallowfullscreen", "");
+  element.setAttribute("webkitallowfullscreen", "");
+  element.setAttribute("allowfullscreen", "");
   var self = this;
   this.host = new Host(element, function(data) {
     self.dispatchEvent(makeEvent("childmessage", { data: data, bubbles: true }));
