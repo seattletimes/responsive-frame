@@ -14,7 +14,7 @@ Host.prototype = {
   init: function() {
     var self = this;
     window.addEventListener("message", function(e) {
-      if (e.data.indexOf(trap) !== 0) return;
+      if (typeof e.data !== "string" || e.data.indexOf(trap) !== 0) return;
       self.onMessage(JSON.parse(e.data.replace(/^.*?;/, "")));
     });
     //send a note to the iframe with our ID
