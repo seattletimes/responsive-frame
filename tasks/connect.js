@@ -13,6 +13,7 @@ module.exports = function(grunt) {
     connect: {
       dev: {
         options: {
+          hostname: "localhost",
           livereload: true,
           base: "./build"
         }
