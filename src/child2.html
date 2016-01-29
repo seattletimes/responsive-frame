@@ -4,9 +4,15 @@
     <responsive-child>
       <h1>This space intentionally left blank</h1>
       <p>
-        This page is longer than the other, which demonstrates that we are able to maintain independent child frames without manually assigning IDs to each one.
+        This page is longer than the other, which demonstrates that we are able to maintain independent child frames without manually assigning IDs to each one. It also adjusts size randomly.
       </p>
     </responsive-child>
     <script src="responsive-child.js"></script>
+    <script>
+var p = document.querySelector("p");
+window.setInterval(function() {
+  p.style.marginTop = Math.round(Math.random() * 100) + "px";
+}, 1000)
+    </script>
   </body>
 </html>

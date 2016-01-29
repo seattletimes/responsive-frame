@@ -5,8 +5,14 @@
     <iframe is="responsive-iframe" src="child2.html"></iframe>
     <script src="responsive-frame.js"></script>
     <script>
+window.logMessages = false;
+window.logPings = true;
+
+window.addEventListener("message", function(e) {
+  if (window.logMessages) console.log(e);
+})
 document.querySelector("responsive-frame").addEventListener("childmessage", function(e) {
-  console.log("From child: ", JSON.stringify(e.data));
+  if (window.logPings) console.log("From child: ", JSON.stringify(e.data));
   this.sendMessage({ pingback: e.data.ping });
 });
     </script>

@@ -1,4 +1,4 @@
-var trap = "while (true);";
+var trap = require("../trapString");
 var guid = 0;
 
 //frame is the iframe, messageCallback will be invoked on non-height messages
@@ -15,7 +15,7 @@ Host.prototype = {
     var self = this;
     window.addEventListener("message", function(e) {
       if (typeof e.data !== "string" || e.data.indexOf(trap) !== 0) return;
-      self.onMessage(JSON.parse(e.data.replace(/^.*?;/, "")));
+      self.onMessage(JSON.parse(e.data.replace(trap, "")));
     });
     //send a note to the iframe with our ID
     var notify = function() {

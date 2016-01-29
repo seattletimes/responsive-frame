@@ -1,9 +1,17 @@
 //in other words: do not eval our JSON
-var trap = "while (true);";
+var trap = require("../trapString");
 
 //parent channel
 var send = function(message) {
   window.parent.postMessage(trap + JSON.stringify(message), "*");
+};
+
+var ampResize = function(height) {
+  window.parent.postMessage(JSON.stringify({
+    sentinel: "amp",
+    height: height,
+    type: "embed-size"
+  }), "*");
 };
 
 var Guest = function(element, callback) {
@@ -45,8 +53,10 @@ Guest.prototype = {
 
   //messages that include the height
   notify: function(reason) {
-    var message = { height: this.element.offsetHeight, type: reason, id: this.id };
+    var h = this.element.offsetHeight;
+    var message = { height: h, type: reason, id: this.id };
     send(message);
+    ampResize(h); //send a note to amp-iframe as well
   },
 
   //arbitrary messages

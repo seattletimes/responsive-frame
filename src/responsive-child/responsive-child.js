@@ -13,10 +13,14 @@ bodyProto.createdCallback = proto.createdCallback = function() {
     self.dispatchEvent(event);
   });
   //set a default interval, but interval=0 still disables it.
-  var interval = this.getAttribute("interval") || 300;
+  var interval = this.getAttribute("interval") || 100;
   if (interval) {
+    var height = null;
     var loop = function() {
-      guest.notify("interval");
+      var h = self.offsetHeight;
+      // don't message if nothing has changed
+      if (h != height) guest.notify("interval");
+      height = h;
       setTimeout(loop, interval);
     };
     loop();
