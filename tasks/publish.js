@@ -6,7 +6,7 @@ var gzip = require("zlib").gzip;
 var mime = require("mime");
 var join = function() {
   return path.join.apply(path, arguments).replace(/\\/g, "/");
-}
+};
 
 var aws = require("aws-sdk");
 
@@ -18,18 +18,13 @@ var formatSize = function(input) {
     return Math.round(input / 1024) + "KB";
   }
   return input + "B";
-}
+};
 
-var gzippable = ["js", "html", "json", "map", "css", "txt"];
+var gzippable = ["js", "html", "json", "map", "css", "txt", "svg", "geojson"];
 
 module.exports = function(grunt) {
 
-  var creds = require("../auth.json");
   var config = require("../project.json");
-
-  grunt.config.merge({
-    publish: config.s3
-  });
 
   var findBuiltFiles = function() {
     var pattern = ["**/*"];
@@ -47,32 +42,51 @@ module.exports = function(grunt) {
       return {
         path: file,
         buffer: buffer
-      }
+      };
     });
     return list;
-  }
+  };
 
   grunt.registerTask("publish", "Pushes the build folder to S3", function(deploy) {
+
+    var done = this.async();
 
     deploy = deploy || "stage";
 
     if (deploy == "simulated") {
       var uploads = findBuiltFiles();
-      uploads.forEach(function(upload) {
+      async.each(uploads, function(upload, c) {
         var extension = upload.path.split(".").pop();
         if (gzippable.indexOf(extension) > -1) {
-          console.log("Uploading gzipped %s", upload.path);
+          gzip(upload.buffer, function(err, zipped) {
+            console.log("Uploading gzipped %s - %s => %s",
+              upload.path,
+              formatSize(upload.buffer.length),
+              formatSize(zipped.length)
+            );
+            c();
+          })
         } else {
           console.log("Uploading %s", upload.path);
+          c();
         }
-      });
+      }, done);
       return;
     }
 
-    var c = this.async();
-
     var bucketConfig = config.s3[deploy];
-    aws.config.update(creds.s3);
+    //strip slashes for safety
+    bucketConfig.path = bucketConfig.path.replace(/^\/|\/$/g, "");
+
+    var creds = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: "us-west-2"
+    };
+    if (!creds.accessKeyId) {
+      creds = require("../auth.json").s3;
+    }
+    aws.config.update(creds);
 
     var s3 = new aws.S3();
     s3.createBucket({
@@ -82,7 +96,7 @@ module.exports = function(grunt) {
         return console.log(err);
       }
       var uploads = findBuiltFiles();
-      async.each(uploads, function(upload, c) {
+      async.eachLimit(uploads, 10, function(upload, c) {
         var obj = {
           Bucket: bucketConfig.bucket,
           Key: join(bucketConfig.path, upload.path.replace(/^\\?build/, "")),
@@ -101,7 +115,7 @@ module.exports = function(grunt) {
               var after = zipped.length;
               obj.ContentEncoding = "gzip";
               console.log("Uploading gzipped %s - %s %s %s (%s)",
-                upload.path,
+                obj.Key,
 
                 chalk.cyan(formatSize(before)),
                 chalk.yellow("=>"),
@@ -117,8 +131,9 @@ module.exports = function(grunt) {
       }, function(err) {
         if (err) return console.log(err);
         console.log("All files uploaded successfully");
-      })
+        done();
+      });
     });
   });
 
-}
+};
