@@ -24,17 +24,16 @@ Guest.prototype = {
   init: function(callback) {
     var self = this;
     callback = callback || function() {};
+    //register for resize
+    //this is early, but in an AMP world we can't wait for HELO
+    window.addEventListener("resize", this.notify.bind(this, "resize"));
+    //listen for host messages, then respond or pass them on
     window.addEventListener("message", function(e) {
       var message = self.parseEvent(e);
-      //kick off loop and notifications after ack
+      //if we're hosted by resposnive-frame, let it know that we're ready
       if (message.type == "helo") {
         self.id = message.id;
-        //respond to outer frame
         self.notify("ready");
-        //register for resizing
-        window.addEventListener("resize", function() {
-          self.notify("resize");
-        });
       } else {
         //transfer to the element for event propagation
         callback(message);
