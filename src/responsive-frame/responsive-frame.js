@@ -10,9 +10,11 @@ proto.createdCallback = iframeProto.createdCallback = function() {
   if (this.tagName.toLowerCase() == "iframe") {
     element = this;
   } else {
+    var root = this.createShadowRoot ? this.createShadowRoot() : this;
+    this.style.display = "block";
     element = document.createElement("iframe");
     element.src = src;
-    this.appendChild(element);
+    root.appendChild(element);
   }
   element.setAttribute("seamless", "");
   element.setAttribute("width", "100%");
@@ -25,6 +27,7 @@ proto.createdCallback = iframeProto.createdCallback = function() {
   element.setAttribute("mozallowfullscreen", "");
   element.setAttribute("webkitallowfullscreen", "");
   element.setAttribute("allowfullscreen", "");
+  element.style.display = "block";
   var self = this;
   this.host = new Host(element, function(data) {
     self.dispatchEvent(makeEvent("childmessage", { data: data, bubbles: true }));
