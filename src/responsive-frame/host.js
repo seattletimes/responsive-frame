@@ -13,10 +13,11 @@ var Host = function(frame, messageCallback) {
 Host.prototype = {
   init: function() {
     var self = this;
-    window.addEventListener("message", function(e) {
+    this.listener = function(e) {
       if (typeof e.data !== "string" || e.data.indexOf(trap) !== 0) return;
       self.onMessage(JSON.parse(e.data.replace(trap, "")));
-    });
+    };
+    window.addEventListener("message", this.listener);
     //send a note to the iframe with our ID
     var notify = function() {
       if (self.state !== "waiting") return;
@@ -37,6 +38,9 @@ Host.prototype = {
   },
   send: function(message) {
     this.element.contentWindow.postMessage(trap + JSON.stringify(message), "*");
+  },
+  destroy: function() {
+    window.removeEventListener("message", this.listener);
   }
 };
 

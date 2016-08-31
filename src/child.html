@@ -10,7 +10,7 @@ host.addEventListener("message", function(e) {
 });
 var ping = function() {
   host.sendMessage({ ping: Date.now() });
-  setTimeout(ping, 1000);
+  setTimeout(ping, 15000);
 };
 ping();
     </script>

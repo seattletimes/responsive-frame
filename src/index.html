@@ -1,8 +1,20 @@
 <!doctype html>
 <html>
+  <head>
+    <style>
+      responsive-frame, iframe[is="responsive-iframe"] {
+        border: 1px solid red;
+      }
+    </style>
+  </head>
   <body>
-    <responsive-frame src="child.html"></responsive-frame>
-    <iframe is="responsive-iframe" src="child2.html"></iframe>
+    <responsive-frame src="child.html">
+      <a href="child2.html">View embedded content</a>
+    </responsive-frame>
+
+    <iframe is="responsive-iframe" src="child2.html">
+      <a href="child2.html">View embedded content</a>
+    </iframe>
     <script src="responsive-frame.js"></script>
     <script>
 window.logMessages = false;

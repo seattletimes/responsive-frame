@@ -1,17 +1,23 @@
+require("./responsive-frame.less");
 var Host = require("./host");
 require("document-register-element");
 var makeEvent = require("../makeEvent");
 
 var proto = Object.create(HTMLElement.prototype);
 var iframeProto = Object.create(HTMLIFrameElement.prototype);
-proto.createdCallback = iframeProto.createdCallback = function() {
+proto.attachedCallback = iframeProto.attachedCallback = function() {
+  this.upgrade();
+}
+
+proto.upgrade = iframeProto.upgrade = function() {
+  if (this.upgraded_) return;
+  this.upgraded_ = true;
   var src = this.getAttribute("src");
   var element;
   if (this.tagName.toLowerCase() == "iframe") {
     element = this;
   } else {
-    var root = this.createShadowRoot ? this.createShadowRoot() : this;
-    this.style.display = "block";
+    var root = this.attachShadow ? this.attachShadow({ mode: "open" }) : this;
     element = document.createElement("iframe");
     element.src = src;
     root.appendChild(element);
@@ -28,11 +34,30 @@ proto.createdCallback = iframeProto.createdCallback = function() {
   element.setAttribute("webkitallowfullscreen", "");
   element.setAttribute("allowfullscreen", "");
   element.style.display = "block";
+  this.listen(element);
+};
+
+proto.listen = iframeProto.listen = function(frame) {
+  if (this.host) this.host.destroy();
   var self = this;
-  this.host = new Host(element, function(data) {
+  this.host = new Host(frame, function(data) {
     self.dispatchEvent(makeEvent("childmessage", { data: data, bubbles: true }));
   });
 };
+
+proto.attributeChangedCallback = iframeProto.attributeChangedCallback = function(attr, oldVal, newVal) {
+  if (attr != "src") return;
+  var frame = this; // start assuming iframe is="responsive-iframe"
+  if (frame.tagName.toLowerCase() != "iframe") {
+    var root = this.shadowRoot ? this.shadowRoot : this;
+    frame = root.querySelector("iframe");
+    if (frame.getAttribute("src") == newVal) return;
+    frame.src = newVal;
+  }
+  //wait for the frame to start transitioning
+  var self = this;
+  setTimeout(() => self.listen(frame), 100);
+}
 
 proto.sendMessage = iframeProto.sendMessage = function(message) {
   this.host.send(message);

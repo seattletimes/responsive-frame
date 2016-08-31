@@ -10,7 +10,7 @@ var lessTemplate = function() {/*
 var style = document.createElement("style");
 style.setAttribute("less", "{{file}}");
 style.innerHTML = {{content}};
-document.head.appendChild(style);
+document.head.insertBefore(style, document.head.firstElementChild);
 */};
 
 module.exports = function(file) {
