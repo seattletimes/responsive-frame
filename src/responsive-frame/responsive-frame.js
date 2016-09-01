@@ -56,7 +56,9 @@ proto.attributeChangedCallback = iframeProto.attributeChangedCallback = function
   }
   //wait for the frame to start transitioning
   var self = this;
-  setTimeout(() => self.listen(frame), 100);
+  setTimeout(function() {
+    self.listen(frame)
+  }, 100);
 }
 
 proto.sendMessage = iframeProto.sendMessage = function(message) {
