@@ -13,6 +13,9 @@ var p = document.querySelector("p");
 window.setInterval(function() {
   p.style.marginTop = p.style.marginBottom = Math.round(Math.random() * 300) + "px";
 }, 500)
+window.setTimeout(function() {
+  window.location.href = "child2.html?time=" + Math.random();
+}, 1000)
     </script>
   </body>
 </html>

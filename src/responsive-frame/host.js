@@ -25,6 +25,10 @@ Host.prototype = {
       setTimeout(notify, 100);
     };
     notify();
+    this.element.onload = function() {
+      self.state = "waiting";
+      notify();
+    };
   },
   onMessage: function(message) {
     if (message.id !== this.id) return;

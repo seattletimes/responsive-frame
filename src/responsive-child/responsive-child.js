@@ -14,6 +14,7 @@ bodyProto.createdCallback = proto.createdCallback = function() {
   });
   //set a default interval, but interval=0 still disables it.
   var interval = this.getAttribute("interval") || 100;
+  interval *= 1;
   if (interval) {
     var height = null;
     var loop = function() {

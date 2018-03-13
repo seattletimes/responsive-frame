@@ -30,7 +30,7 @@ Guest.prototype = {
     //listen for host messages, then respond or pass them on
     window.addEventListener("message", function(e) {
       var message = self.parseEvent(e);
-      //if we're hosted by resposnive-frame, let it know that we're ready
+      //if we're hosted by responsive-frame, let it know that we're ready
       if (message.type == "helo") {
         self.id = message.id;
         self.notify("ready");
