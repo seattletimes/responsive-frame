@@ -24,7 +24,7 @@ Host.prototype = {
       self.send({ type: "helo", id: self.id });
       setTimeout(notify, 100);
     };
-    notify();
+    // if (this.element.contentDocument.readyState == "complete") notify();
     this.element.onload = function() {
       self.state = "waiting";
       notify();
