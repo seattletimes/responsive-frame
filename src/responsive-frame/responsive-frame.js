@@ -93,7 +93,7 @@ ResponsiveFrame.prototype.sendMessage = ResponsiveIFrame.prototype.sendMessage =
 
 try {
     customElements.define('responsive-frame', ResponsiveFrame);
-    customElements.define('responsive-iframe', ResponsiveIFrame);
+    customElements.define('responsive-iframe', ResponsiveIFrame, {'extends': 'iframe'});
 } catch (_) {
     if (window.console && console.log) console.log("<responsive-iframe> is already registered");
 }

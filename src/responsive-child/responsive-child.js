@@ -4,9 +4,6 @@ require("./responsive-child.less");
 var makeEvent = require("../makeEvent");
 var Guest = require("./guest.js");
 
-var proto = Object.create(HTMLElement.prototype);
-var bodyProto = Object.create(HTMLBodyElement.prototype);
-
 
 function ResponsiveChild() {
     return Reflect.construct(HTMLElement, [], this.constructor);
@@ -53,10 +50,11 @@ ResponsiveChild.prototype.connectedCallback = ResponsiveBody.prototype.connected
 ResponsiveBody.prototype.sendMessage = ResponsiveChild.prototype.sendMessage = function(message) {
     this.guest.send(message);
 };
+
 ResponsiveBody.prototype.guest = ResponsiveChild.prototype.guest = null;
 
 try {
-    customElements.define('responsive-body', ResponsiveBody);
+    customElements.define('responsive-body', ResponsiveBody, {extends: 'body'});
     customElements.define('responsive-child', ResponsiveChild);
 } catch (_) {
     if (window.console && console.log) console.log("<responsive-child> is already registered.");
