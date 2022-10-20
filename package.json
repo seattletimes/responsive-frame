@@ -1,7 +1,7 @@
 {
   "name": "component-responsive-frame",
   "description": "A responsive iframe (includes responsive-child)",
-  "version": "1.4.2",
+  "version": "1.5.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/seattletimes/responsive-frame.git"
