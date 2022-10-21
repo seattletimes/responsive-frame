@@ -4,7 +4,6 @@ require("./responsive-frame.less");
 var Host = require("./host");
 var makeEvent = require("../makeEvent");
 
-
 function ResponsiveFrame() {
     return Reflect.construct(HTMLElement, [], this.constructor);
 }
@@ -56,6 +55,7 @@ ResponsiveFrame.prototype.upgrade = ResponsiveIFrame.prototype.upgrade = functio
     element.setAttribute("mozallowfullscreen", "");
     element.setAttribute("webkitallowfullscreen", "");
     element.setAttribute("allowfullscreen", "");
+    element.setAttribute("loading", "lazy");
     element.style.display = "block";
     this.listen(element);
 };
